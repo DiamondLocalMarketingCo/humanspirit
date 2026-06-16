@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import GlobeClient from "./components/GlobeClient";
 import IntroLoader from "./components/IntroLoader";
+import MissionButton from "./components/MissionButton";
 
 const pageMotion = {
   hidden: { opacity: 0 },
@@ -32,6 +33,7 @@ const footerMotion = {
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
+  const [showMission, setShowMission] = useState(false);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setLoading(false), 2300);
@@ -77,29 +79,80 @@ export default function Home() {
         </div>
 
         <section className="relative z-10 h-[100svh] px-6 pt-10 pb-6 sm:px-8 sm:pt-12 lg:px-16">
-          <div className="absolute left-1/2 top-1/2 w-full max-w-[920px] -translate-x-1/2 -translate-y-1/2 px-4 text-center">
-            <motion.h1
-              variants={headlineMotion}
-              className="mx-auto max-w-[900px] text-[clamp(2.4rem,7vw,5.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-[clamp(2.9rem,5vw,5.6rem)]"
-            >
-              The human spirit will lead us to places we never thought possible.
-            </motion.h1>
-          </div>
+          <AnimatePresence mode="wait">
+            {!showMission ? (
+              <motion.div
+                key="hero-layer"
+                initial={{ opacity: 0, y: 24, filter: "blur(14px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -24, filter: "blur(14px)" }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+                className="absolute left-1/2 top-1/2 w-full max-w-[920px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
+              >
+                <div className="mx-auto mb-6 w-[160px] sm:w-[200px] lg:w-[220px]">
+                  <img
+                    src="/liorvel_logo_white_transparent_true_alpha.png"
+                    alt="LIORVEL"
+                    className="mx-auto h-auto w-full object-contain"
+                  />
+                </div>
+                <motion.h1
+                  initial="hidden"
+                  animate="visible"
+                  variants={headlineMotion}
+                  className="mx-auto max-w-[900px] text-[clamp(2.4rem,7vw,5.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-[clamp(2.9rem,5vw,5.6rem)]"
+                >
+                  The human spirit will lead us to places we never thought possible.
+                </motion.h1>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="mission-layer"
+                initial={{ opacity: 0, y: 24, filter: "blur(14px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -24, filter: "blur(14px)" }}
+                transition={{ duration: 0.7, ease: "easeOut" }}
+                className="absolute left-1/2 top-1/2 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
+              >
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+                  className="text-[0.95rem] uppercase tracking-[0.65em] text-cyan-300/70"
+                >
+                  Mission
+                </motion.span>
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+                  className="mt-6 mx-auto max-w-[700px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
+                >
+                  Develop and build intelligent systems that understand, adapt, and act
+                  in the physical world.
+                </motion.p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <div className="absolute left-1/2 bottom-6 w-full max-w-[700px] -translate-x-1/2 px-4 text-center sm:bottom-8">
-            <motion.p
-              variants={footerMotion}
-              className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
-            >
-              Building the future.
-            </motion.p>
-            <motion.span
-              variants={footerMotion}
-              className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.55em] text-white/50 sm:text-[0.95rem]"
-            >
-              Human Spirit
-            </motion.span>
-          </div>
+          {!showMission && (
+            <div className="absolute left-1/2 bottom-20 w-full max-w-[700px] -translate-x-1/2 px-4 text-center sm:bottom-8">
+              <motion.p
+                variants={footerMotion}
+                className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
+              >
+                Building the future.
+              </motion.p>
+              <motion.span
+                variants={footerMotion}
+                className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.28em] text-white/50 sm:text-[0.95rem]"
+              >
+                Intelligence in motion.
+              </motion.span>
+            </div>
+          )}
+
+          <MissionButton showMission={showMission} onToggle={() => setShowMission(!showMission)} />
         </section>
       </motion.div>
     </main>

@@ -16,7 +16,7 @@ type GlobeRef = {
 };
 
 const Globe = dynamic(
-  () => import("react-globe.gl").then((mod) => mod.Globe ?? mod.default),
+  () => import("react-globe.gl").then((mod) => mod.default as unknown as ComponentType<{ style: CSSProperties; ref?: Ref<GlobeRef>; [key: string]: unknown }>),
   {
     ssr: false,
     loading: () => <div className="h-full w-full bg-[#020407]" />,
