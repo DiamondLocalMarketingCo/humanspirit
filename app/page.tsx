@@ -1,33 +1,86 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useEffect, useState } from "react";
 import GlobeClient from "./components/GlobeClient";
 import IntroLoader from "./components/IntroLoader";
 import MissionButton from "./components/MissionButton";
 
-const pageMotion = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.9, ease: "easeOut" } },
-};
+const easeOutCinematic: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const easeInOutCinematic: [number, number, number, number] = [0.65, 0, 0.35, 1];
 
-const headlineMotion = {
-  hidden: { opacity: 0, y: 24, filter: "blur(14px)" },
+const pageMotion: Variants = {
+  hidden: {
+    opacity: 0,
+  },
   visible: {
     opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 1, ease: "easeOut", delay: 0.18 },
+    transition: {
+      duration: 0.9,
+      ease: easeOutCinematic,
+    },
   },
 };
 
-const footerMotion = {
-  hidden: { opacity: 0, y: 18, filter: "blur(10px)" },
+const headlineMotion: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+    filter: "blur(14px)",
+  },
   visible: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.9, ease: "easeOut", delay: 0.5 },
+    transition: {
+      duration: 1,
+      ease: easeOutCinematic,
+      delay: 0.18,
+    },
+  },
+};
+
+const footerMotion: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 18,
+    filter: "blur(10px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.9,
+      ease: easeOutCinematic,
+      delay: 0.5,
+    },
+  },
+};
+
+const layerMotion: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 24,
+    filter: "blur(14px)",
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.7,
+      ease: easeOutCinematic,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -24,
+    filter: "blur(14px)",
+    transition: {
+      duration: 0.45,
+      ease: easeInOutCinematic,
+    },
   },
 };
 
@@ -54,7 +107,11 @@ export default function Home() {
           <motion.div
             className="pointer-events-none absolute inset-0"
             animate={{ x: [0, 8, 0], y: [0, -6, 0] }}
-            transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
+            transition={{
+              duration: 28,
+              repeat: Infinity,
+              ease: easeInOutCinematic,
+            }}
           >
             <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/10 blur-3xl opacity-40" />
             <div className="absolute left-[42%] top-[12%] h-24 w-24 rounded-full bg-cyan-400/10 blur-3xl opacity-40" />
@@ -68,6 +125,7 @@ export default function Home() {
           <div className="pointer-events-none absolute inset-0 bg-black/44" />
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.04),transparent_22%)] blur-3xl opacity-20" />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.05),transparent_45%)]" />
+
           <div
             className="pointer-events-none absolute inset-0 opacity-10"
             style={{
@@ -78,15 +136,15 @@ export default function Home() {
           />
         </div>
 
-        <section className="relative z-10 h-[100svh] px-6 pt-10 pb-6 sm:px-8 sm:pt-12 lg:px-16">
+        <section className="relative z-10 h-[100svh] px-6 pb-6 pt-10 sm:px-8 sm:pt-12 lg:px-16">
           <AnimatePresence mode="wait">
             {!showMission ? (
               <motion.div
                 key="hero-layer"
-                initial={{ opacity: 0, y: 24, filter: "blur(14px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -24, filter: "blur(14px)" }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={layerMotion}
                 className="absolute left-1/2 top-1/2 w-full max-w-[920px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
               >
                 <div className="mx-auto mb-6 w-[160px] sm:w-[200px] lg:w-[220px]">
@@ -96,6 +154,7 @@ export default function Home() {
                     className="mx-auto h-auto w-full object-contain"
                   />
                 </div>
+
                 <motion.h1
                   initial="hidden"
                   animate="visible"
@@ -108,25 +167,34 @@ export default function Home() {
             ) : (
               <motion.div
                 key="mission-layer"
-                initial={{ opacity: 0, y: 24, filter: "blur(14px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -24, filter: "blur(14px)" }}
-                transition={{ duration: 0.7, ease: "easeOut" }}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={layerMotion}
                 className="absolute left-1/2 top-1/2 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
               >
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+                  transition={{
+                    duration: 0.7,
+                    ease: easeOutCinematic,
+                    delay: 0.1,
+                  }}
                   className="text-[0.95rem] uppercase tracking-[0.65em] text-cyan-300/70"
                 >
                   Mission
                 </motion.span>
+
                 <motion.p
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
-                  className="mt-6 mx-auto max-w-[700px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
+                  transition={{
+                    duration: 0.8,
+                    ease: easeOutCinematic,
+                    delay: 0.15,
+                  }}
+                  className="mx-auto mt-6 max-w-[700px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
                 >
                   Develop and build intelligent systems that understand, adapt, and act
                   in the physical world.
@@ -135,24 +203,37 @@ export default function Home() {
             )}
           </AnimatePresence>
 
-          {!showMission && (
-            <div className="absolute left-1/2 bottom-20 w-full max-w-[700px] -translate-x-1/2 px-4 text-center sm:bottom-8">
-              <motion.p
-                variants={footerMotion}
-                className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
+          <AnimatePresence>
+            {!showMission && (
+              <motion.div
+                key="footer-layer"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={layerMotion}
+                className="absolute bottom-20 left-1/2 w-full max-w-[700px] -translate-x-1/2 px-4 text-center sm:bottom-8"
               >
-                Building the future.
-              </motion.p>
-              <motion.span
-                variants={footerMotion}
-                className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.28em] text-white/50 sm:text-[0.95rem]"
-              >
-                Intelligence in motion.
-              </motion.span>
-            </div>
-          )}
+                <motion.p
+                  variants={footerMotion}
+                  className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
+                >
+                  Building the future.
+                </motion.p>
 
-          <MissionButton showMission={showMission} onToggle={() => setShowMission(!showMission)} />
+                <motion.span
+                  variants={footerMotion}
+                  className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.28em] text-white/50 sm:text-[0.95rem]"
+                >
+                  Intelligence in motion.
+                </motion.span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <MissionButton
+            showMission={showMission}
+            onToggle={() => setShowMission((current) => !current)}
+          />
         </section>
       </motion.div>
     </main>
