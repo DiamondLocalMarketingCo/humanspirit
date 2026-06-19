@@ -196,8 +196,8 @@ export default function Home() {
                   }}
                   className="mx-auto mt-6 max-w-[700px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
                 >
-                  Develop and build intelligent systems that understand, adapt, and act
-                  in the physical world.
+                  Researching and developing intelligent systems for real-world
+                  applications.
                 </motion.p>
               </motion.div>
             )}
