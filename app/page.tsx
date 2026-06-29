@@ -161,7 +161,7 @@ export default function Home() {
                   variants={headlineMotion}
                   className="mx-auto max-w-[900px] text-[clamp(2.4rem,7vw,5.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-[clamp(2.9rem,5vw,5.6rem)]"
                 >
-                  The human spirit will lead us to places we never thought possible.
+                  Engineering intelligence into the physical world.
                 </motion.h1>
               </motion.div>
             ) : (
@@ -186,7 +186,7 @@ export default function Home() {
                   Mission
                 </motion.span>
 
-                <motion.p
+                <motion.h2
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -194,10 +194,24 @@ export default function Home() {
                     ease: easeOutCinematic,
                     delay: 0.15,
                   }}
-                  className="mx-auto mt-6 max-w-[700px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
+                  className="mx-auto mt-6 max-w-[720px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
                 >
-                  Researching and developing intelligent systems for real-world
-                  applications.
+                  Engineering intelligence into the physical world.
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    ease: easeOutCinematic,
+                    delay: 0.25,
+                  }}
+                  className="mx-auto mt-6 max-w-[680px] text-[clamp(1rem,2vw,1.35rem)] font-medium leading-[1.55] tracking-[-0.01em] text-white/72"
+                >
+                  Liorvel develops physical and engineering applications for
+                  artificial intelligence, turning advanced AI into practical
+                  systems for real-world use.
                 </motion.p>
               </motion.div>
             )}
