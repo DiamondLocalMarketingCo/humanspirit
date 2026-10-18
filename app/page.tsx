@@ -161,7 +161,7 @@ export default function Home() {
                   variants={headlineMotion}
                   className="mx-auto max-w-[900px] text-[clamp(2.4rem,7vw,5.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-[clamp(2.9rem,5vw,5.6rem)]"
                 >
-                  Engineering intelligence into the physical world.
+                  Connecting data to the next frontier of intelligence.
                 </motion.h1>
               </motion.div>
             ) : (
@@ -196,7 +196,7 @@ export default function Home() {
                   }}
                   className="mx-auto mt-6 max-w-[720px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
                 >
-                  Engineering intelligence into the physical world.
+                  Unlocking the knowledge that moves AI forward.
                 </motion.h2>
 
                 <motion.p
@@ -209,9 +209,10 @@ export default function Home() {
                   }}
                   className="mx-auto mt-6 max-w-[680px] text-[clamp(1rem,2vw,1.35rem)] font-medium leading-[1.55] tracking-[-0.01em] text-white/72"
                 >
-                  Liorvel develops physical and engineering applications for
-                  artificial intelligence, turning advanced AI into practical
-                  systems for real-world use.
+                  Liorvel connects organizations with valuable, licensable data
+                  to the teams building advanced AI. We facilitate data
+                  partnerships that respect ownership, privacy, and responsible
+                  use.
                 </motion.p>
               </motion.div>
             )}
@@ -231,14 +232,14 @@ export default function Home() {
                   variants={footerMotion}
                   className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
                 >
-                  Building the future.
+                  Intelligence begins with data.
                 </motion.p>
 
                 <motion.span
                   variants={footerMotion}
                   className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.28em] text-white/50 sm:text-[0.95rem]"
                 >
-                  Intelligence in motion.
+                  AI Data Sourcing &amp; Licensing.
                 </motion.span>
               </motion.div>
             )}

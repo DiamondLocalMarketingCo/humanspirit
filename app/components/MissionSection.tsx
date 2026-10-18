@@ -54,8 +54,8 @@ export default function MissionSection() {
             transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
             className="max-w-[800px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
           >
-            Develop and build intelligent systems that understand, adapt, and act
-            in the physical world.
+            Connect valuable data with the teams shaping the next generation
+            of intelligence.
           </motion.p>
         </motion.div>
       </div>

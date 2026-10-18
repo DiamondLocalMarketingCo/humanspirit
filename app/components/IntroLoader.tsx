@@ -15,7 +15,7 @@ export default function IntroLoader() {
         <div className="w-[140px] sm:w-[180px] md:w-[220px]">
           <img
             src="/liorvel_logo_white_transparent_true_alpha.png"
-            alt="Human Spirit"
+            alt="Liorvel"
             className="w-full h-auto object-contain"
           />
         </div>

@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Human Spirit",
-  description: "A cinematic landing concept for a project in formation.",
+  title: "Liorvel | AI Data Sourcing & Licensing",
+  description: "Liorvel connects data owners with AI developers through responsible data sourcing and licensing partnerships.",
 };
 
 export default function RootLayout({
