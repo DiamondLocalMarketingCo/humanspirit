@@ -58,7 +58,6 @@ export function Footer() {
       </div>
       <div className="footer-grid compact-footer-grid">
         <div><a href="/" className="footer-logo" aria-label="Liorvel home"><img className="footer-brand-logo" src="/liorvel_logo_white_transparent_true_alpha.png" alt="Liorvel" width={174} height={72}/></a>
-          <p>Data sourcing and partnership advisory.</p>
         </div>
         <div><span className="footer-heading">Explore</span><a href="/">Home</a><a href="/approach">Our approach</a><a href="/companies">For companies</a></div>
         <div><span className="footer-heading">Connect</span><a href="/contact">Contact <ArrowUpRight size={13}/></a><a href="/contact">Request an assessment <ArrowUpRight size={13}/></a></div>
