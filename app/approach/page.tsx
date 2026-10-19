@@ -1,18 +1,36 @@
 import type { Metadata } from "next";
+import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import { Footer, Header, PrimaryLink, Reveal } from "../components/Experience";
-export const metadata: Metadata = { title: "Our Approach", description: "How Liorvel qualifies data opportunities and makes appropriate partner introductions." };
-const stages = [
-  {title:"Discover",text:"Tell us about your company, workflows and the information you produce."},
-  {title:"Assess",text:"We review relevance, rights, quality and potential partner demand."},
-  {title:"Connect",text:"If there is a fit, we may introduce you to a broker or licensing partner."}
+
+export const metadata: Metadata = {
+  title: "Our Approach",
+  description: "How Liorvel assesses business data opportunities and introduces qualified companies to relevant partners.",
+};
+
+const steps = [
+  { title: "Discover", description: "We learn what your company does and what information its work generates." },
+  { title: "Evaluate", description: "We consider relevance, quality, provenance, ownership, privacy, and potential market fit." },
+  { title: "Introduce", description: "Where there is a fit, we may connect you to an independent broker or licensing partner." },
 ];
+
 export default function Approach() {
- return <div className="site"><Header/><main>
-  <section className="page-hero"><Reveal className="page-hero-inner"><h1>From information<br/>to <em>opportunity.</em></h1><p>We help companies understand their potential data assets and reach the right specialists.</p></Reveal></section>
-  <section className="section-pad simple-content"><div className="section-width">
-    <Reveal className="center-copy"><h2>A clear process.</h2><p>No complex preparation. An initial review starts with a short conversation.</p></Reveal>
-    <div className="steps-grid">{stages.map((stage,i)=><Reveal className="step-card" delay={.08*i} key={stage.title}><h3>{stage.title}</h3><p>{stage.text}</p></Reveal>)}</div>
-  </div></section>
-  <section className="trust-section section-pad"><div className="section-width trust-layout"><Reveal className="trust-text"><h2>Company control<br/><span>at every stage.</span></h2><p>We do not require raw datasets upfront. You decide what to disclose and whether to pursue any opportunity. Introductions and payments are never guaranteed.</p><PrimaryLink>Start an assessment</PrimaryLink></Reveal><Reveal className="trust-art"><img src="/art/orbital-intelligence.webp" alt="Illustrated orbital network" loading="lazy"/></Reveal></div></section>
- </main><Footer/></div>;
+  return <div className="site"><Header /><main>
+    <section className="page-hero"><div className="page-hero-inner"><Reveal>
+      <h1>Finding the right<br /><em>data connections.</em></h1>
+      <p>We help businesses explore data opportunities, then make introductions when there is a suitable match.</p>
+    </Reveal></div></section>
+
+    <section className="page-body section-pad"><div className="section-width">
+      <Reveal><h2 className="section-heading">A clear, considered<br /><span>process.</span></h2></Reveal>
+      <div className="process-list concise-process-list">
+        {steps.map((step, i) => <Reveal key={step.title} delay={i * 0.06} className="process-row concise-process-row">
+          <h3>{step.title}</h3><p>{step.description}</p><ArrowUpRight className="process-arrow" size={21} />
+        </Reveal>)}
+      </div>
+      <Reveal className="short-note"><ShieldCheck size={22} strokeWidth={1.35} />
+        <p>We start with a high-level conversation. Any sharing or licensing must respect applicable rights, permissions, and confidentiality requirements.</p>
+      </Reveal>
+      <Reveal className="process-cta"><PrimaryLink>Request an assessment</PrimaryLink></Reveal>
+    </div></section>
+  </main><Footer /></div>;
 }
