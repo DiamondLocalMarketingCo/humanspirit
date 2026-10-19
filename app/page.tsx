@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowRight, ArrowUpRight, ArrowNorthEast, ArrowUp, MoveUpRight, ShieldCheck, ScanSearch, Network, Layers3 } from "lucide-react";
+import { ArrowDown, ArrowUpRight, ShieldCheck, ScanSearch, Network, Layers3 } from "lucide-react";
 import { Footer, Header, PrimaryLink, Reveal, FAQ } from "./components/Experience";
 
 const stages = [
