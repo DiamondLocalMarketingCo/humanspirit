@@ -176,7 +176,8 @@ radial-gradient(ellipse 70% 46% at 50% 49%,rgba(10,11,15,.35),transparent)}
 @media(max-width:650px){
   .hero h1{max-width:100%;width:100%;font-size:clamp(35px,9.5vw,49px)!important;line-height:1.16!important;letter-spacing:-.055em!important;text-wrap:normal}
   .hero-title-desktop{display:none}
-  .hero-title-mobile{display:block;white-space:nowrap}
+  .hero-title-mobile{display:block;max-width:100%;white-space:normal}
+  .hero-title-mobile .hero-title-line{display:block;width:100%;white-space:nowrap}
   .hero-inner{max-width:100%;width:100%;padding-inline:1px}
 }
 .intake-page{
@@ -298,4 +299,10 @@ radial-gradient(ellipse 70% 46% at 50% 49%,rgba(10,11,15,.35),transparent)}
 }
 @media(prefers-reduced-motion:reduce){
  .wizard-meter span,.wizard-primary,.wizard-tool{transition:none}
+}
+
+/* Mobile headline: each line is its own block. No reliance on <br> styling. */
+@media(max-width:650px){
+  .hero h1{font-size:clamp(30px,8.8vw,46px)!important;letter-spacing:-.055em!important;line-height:1.17!important}
+  .hero-title-mobile .hero-title-line{display:block;white-space:nowrap}
 }

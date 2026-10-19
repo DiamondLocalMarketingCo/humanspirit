@@ -26,7 +26,11 @@ export default function Home() {
         <div className="hero-inner">
           <Reveal delay={0.1}><h1 id="home-heading" aria-label="Your company's data may hold untapped value.">
             <span className="hero-title-desktop" aria-hidden="true">Your company&apos;s data<br />may hold <em>untapped value.</em></span>
-            <span className="hero-title-mobile" aria-hidden="true">Your company&apos;s<br />data may hold<br /><em>untapped value.</em></span>
+            <span className="hero-title-mobile" aria-hidden="true">
+              <span className="hero-title-line">Your company&apos;s</span>
+              <span className="hero-title-line">data may hold</span>
+              <span className="hero-title-line"><em>untapped value.</em></span>
+            </span>
           </h1></Reveal>
           <Reveal delay={0.19}><p className="hero-description">We assess business data opportunities and introduce qualified companies to data brokers and licensing partners.</p></Reveal>
           <Reveal delay={0.25}><div className="hero-actions">
