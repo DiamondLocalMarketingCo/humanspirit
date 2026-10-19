@@ -1,4 +1,7 @@
 import { ArrowDown, ArrowUpRight, Layers3, ScanSearch, Network, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import skyline from "./citylandscape.png";
+import spectralArt from "./6a1721ed070156fbb2676424_6a05c67a478d77009ec4ec81_Rectangle 828797 (1).webp";
 import { Footer, Header, PrimaryLink, Reveal, FAQ } from "./components/Experience";
 
 const examples = [
@@ -19,6 +22,7 @@ export default function Home() {
     <main>
       <section className="hero" aria-labelledby="home-heading">
         <div className="hero-art" aria-hidden="true" />
+        <div className="hero-city" aria-hidden="true"><Image src={skyline} alt="" fill priority sizes="(max-width: 650px) 1200px, 100vw" className="hero-city-image" /></div>
         <div className="hero-inner">
           <Reveal delay={0.1}><h1 id="home-heading">Your company&apos;s data<br />may hold <em>untapped value.</em></h1></Reveal>
           <Reveal delay={0.19}><p className="hero-description">We assess business data opportunities and introduce qualified companies to data brokers and licensing partners.</p></Reveal>
@@ -50,8 +54,11 @@ export default function Home() {
       </section>
 
       <section id="how-it-works" className="process-section section-pad">
-        <div className="section-width">
+        <div className="process-feature">
+          <div className="process-feature-art" style={{ backgroundImage: `url("${spectralArt.src}")` }} aria-hidden="true" />
           <Reveal><h2 className="section-heading">We qualify.<br /><span>We connect.</span></h2></Reveal>
+        </div>
+        <div className="section-width">
           <div className="process-list concise-process-list">
             {steps.map((step, i) => <Reveal key={step.title} delay={i * 0.07} className="process-row concise-process-row">
               <h3>{step.title}</h3><p>{step.description}</p><ArrowUpRight className="process-arrow" size={21} strokeWidth={1.1} />
