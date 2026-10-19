@@ -1,256 +1,67 @@
-"use client";
+import { ArrowDown, ArrowRight, ArrowUpRight, ArrowNorthEast, ArrowUp, MoveUpRight, ShieldCheck, ScanSearch, Network, Layers3 } from "lucide-react";
+import { Footer, Header, PrimaryLink, Reveal, FAQ } from "./components/Experience";
 
-import { AnimatePresence, motion, type Variants } from "framer-motion";
-import { useEffect, useState } from "react";
-import GlobeClient from "./components/GlobeClient";
-import IntroLoader from "./components/IntroLoader";
-import MissionButton from "./components/MissionButton";
-
-const easeOutCinematic: [number, number, number, number] = [0.16, 1, 0.3, 1];
-const easeInOutCinematic: [number, number, number, number] = [0.65, 0, 0.35, 1];
-
-const pageMotion: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.9,
-      ease: easeOutCinematic,
-    },
-  },
-};
-
-const headlineMotion: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    filter: "blur(14px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 1,
-      ease: easeOutCinematic,
-      delay: 0.18,
-    },
-  },
-};
-
-const footerMotion: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 18,
-    filter: "blur(10px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.9,
-      ease: easeOutCinematic,
-      delay: 0.5,
-    },
-  },
-};
-
-const layerMotion: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    filter: "blur(14px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.7,
-      ease: easeOutCinematic,
-    },
-  },
-  exit: {
-    opacity: 0,
-    y: -24,
-    filter: "blur(14px)",
-    transition: {
-      duration: 0.45,
-      ease: easeInOutCinematic,
-    },
-  },
-};
-
+const stages = [
+  { number: "01", title: "Discovery", text: "We learn how your company operates and what kinds of information your work produces." },
+  { number: "02", title: "Qualification", text: "We consider relevance, data rights, sensitivity, format, and potential market fit." },
+  { number: "03", title: "Introductions", text: "Where appropriate, we connect you with a broker or partner for independent discussions." },
+];
+const assets = [
+  { num: "01 /", title: "Operational intelligence", desc: "The records, workflows, and decisions that reflect how business happens in practice." },
+  { num: "02 /", title: "Specialized knowledge", desc: "Domain-specific materials, industry procedures, and experience that general datasets may miss." },
+  { num: "03 /", title: "Structured histories", desc: "Organized business activity and outcomes with relevant context, provenance, and appropriate rights." },
+];
 export default function Home() {
-  const [loading, setLoading] = useState(true);
-  const [showMission, setShowMission] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setLoading(false), 2300);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  return (
-    <main className="relative min-h-[100svh] overflow-hidden bg-[#020407] text-white">
-      <AnimatePresence>{loading && <IntroLoader />}</AnimatePresence>
-
-      <motion.div
-        initial="hidden"
-        animate={loading ? "hidden" : "visible"}
-        variants={pageMotion}
-        className="relative min-h-[100svh]"
-      >
-        <div className="absolute inset-0 overflow-hidden">
-          <motion.div
-            className="pointer-events-none absolute inset-0"
-            animate={{ x: [0, 8, 0], y: [0, -6, 0] }}
-            transition={{
-              duration: 28,
-              repeat: Infinity,
-              ease: easeInOutCinematic,
-            }}
-          >
-            <div className="absolute left-1/2 top-1/2 h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/10 blur-3xl opacity-40" />
-            <div className="absolute left-[42%] top-[12%] h-24 w-24 rounded-full bg-cyan-400/10 blur-3xl opacity-40" />
-          </motion.div>
-
-          <div className="absolute left-1/2 top-1/2 h-[110svh] w-[110svw] max-h-[1400px] max-w-[1400px] -translate-x-1/2 -translate-y-1/2">
-            <GlobeClient />
-          </div>
-
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(94,214,255,0.16),transparent_12%),radial-gradient(circle_at_bottom,_rgba(255,255,255,0.05),transparent_55%)] mix-blend-screen opacity-70" />
-          <div className="pointer-events-none absolute inset-0 bg-black/44" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.04),transparent_22%)] blur-3xl opacity-20" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.05),transparent_45%)]" />
-
-          <div
-            className="pointer-events-none absolute inset-0 opacity-10"
-            style={{
-              backgroundImage:
-                "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%22120%22 viewBox=%220 0 120 120%22%3E%3Cfilter id=%22noise%22 x=%220%25%22 y=%220%25%22 width=%22100%25%22 height=%22100%25%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.82%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22120%22 height=%22120%22 filter=%22url(%23noise)%22 fill=%22rgba(255,255,255,0.16)%22/%3E%3C/svg%3E')",
-              backgroundSize: "240px 240px",
-            }}
-          />
+  return <div className="site">
+    <Header/>
+    <main>
+      <section className="hero" aria-labelledby="home-heading">
+        <div className="hero-art" aria-hidden="true"/><div className="hero-grid" aria-hidden="true"/>
+        <div className="hero-inner">
+          <Reveal className="hero-intro" delay={0.08}><span className="hero-kicker"><span className="status-dot"/> INDEPENDENT DATA ADVISORY</span></Reveal>
+          <Reveal delay={0.16}><h1 id="home-heading">Your company&apos;s data<br/>may hold <em>untapped value.</em></h1></Reveal>
+          <Reveal delay={0.25}><p className="hero-description">We assess business data opportunities, qualify companies, and connect promising assets with established data brokers and licensing partners.</p></Reveal>
+          <Reveal delay={0.32}><div className="hero-actions"><PrimaryLink>Check your company&apos;s eligibility</PrimaryLink><a href="#how-it-works" className="text-link">Explore how it works <ArrowDown size={17}/></a></div></Reveal>
         </div>
+        <div className="hero-bottom"><span>INTELLIGENCE BEGINS WITH DATA.</span><a href="#opportunity">DISCOVER MORE <ArrowDown size={15}/></a><span>01 / 05</span></div>
+      </section>
 
-        <section className="relative z-10 h-[100svh] px-6 pb-6 pt-10 sm:px-8 sm:pt-12 lg:px-16">
-          <AnimatePresence mode="wait">
-            {!showMission ? (
-              <motion.div
-                key="hero-layer"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={layerMotion}
-                className="absolute left-1/2 top-1/2 w-full max-w-[920px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
-              >
-                <div className="mx-auto mb-6 w-[160px] sm:w-[200px] lg:w-[220px]">
-                  <img
-                    src="/liorvel_logo_white_transparent_true_alpha.png"
-                    alt="LIORVEL"
-                    className="mx-auto h-auto w-full object-contain"
-                  />
-                </div>
+      <section id="opportunity" className="manifesto-section section-pad">
+        <div className="section-width manifesto-layout">
+          <Reveal><div className="section-index"><span className="index-line"/>01 / THE OPPORTUNITY</div></Reveal>
+          <Reveal delay={0.1}><h2 className="large-heading">Every business generates information.<br/><span>Not every business sees its potential.</span></h2></Reveal>
+          <Reveal delay={0.18} className="manifesto-lower">
+            <div className="soft-orbit"><span className="orbit-center">L<span>.</span></span><span className="orbit-ring ring-one"/><span className="orbit-ring ring-two"/></div>
+            <div className="manifesto-copy"><p>From operational histories to specialized workflows, valuable information often lives inside everyday systems. As the data economy evolves, some of these assets may be relevant to new commercial uses.</p><p>Liorvel exists to help bridge the gap between companies that generate data and the specialists who evaluate and structure potential opportunities.</p><a className="underlined-link" href="/approach">Our approach <ArrowUpRight size={18}/></a></div>
+          </Reveal>
+        </div>
+      </section>
 
-                <motion.h1
-                  initial="hidden"
-                  animate="visible"
-                  variants={headlineMotion}
-                  className="mx-auto max-w-[900px] text-[clamp(2.4rem,7vw,5.2rem)] font-semibold leading-[0.96] tracking-[-0.04em] text-white sm:text-[clamp(2.9rem,5vw,5.6rem)]"
-                >
-                  Connecting data to the next frontier of intelligence.
-                </motion.h1>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="mission-layer"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={layerMotion}
-                className="absolute left-1/2 top-1/2 w-full max-w-[800px] -translate-x-1/2 -translate-y-1/2 px-4 text-center"
-              >
-                <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{
-                    duration: 0.7,
-                    ease: easeOutCinematic,
-                    delay: 0.1,
-                  }}
-                  className="text-[0.95rem] uppercase tracking-[0.65em] text-cyan-300/70"
-                >
-                  Mission
-                </motion.span>
+      <section className="quote-band" aria-label="Our perspective"><div className="quote-band-bg" aria-hidden="true"/><Reveal className="quote-band-content"><span className="eyebrow">OUR PERSPECTIVE</span><h2>The future of intelligence<br/>is built on <i>real-world knowledge.</i></h2></Reveal></section>
 
-                <motion.h2
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    ease: easeOutCinematic,
-                    delay: 0.15,
-                  }}
-                  className="mx-auto mt-6 max-w-[720px] text-[clamp(2rem,5vw,4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white sm:text-[clamp(2.4rem,4.5vw,4.4rem)]"
-                >
-                  Unlocking the knowledge that moves AI forward.
-                </motion.h2>
+      <section id="what-we-look-for" className="assets-section section-pad">
+        <div className="section-width">
+          <Reveal><div className="section-index"><span className="index-line"/>02 / WHAT WE LOOK FOR</div></Reveal>
+          <div className="section-intro-row"><Reveal><h2 className="section-heading">The value is in<br/><span>the details.</span></h2></Reveal><Reveal delay={0.1}><p>Every company is different. We focus on understanding the nature of the information, its origin, and whether there may be a responsible path to market.</p></Reveal></div>
+          <div className="asset-grid">{assets.map((asset, i) => <Reveal key={asset.num} delay={0.08 * i} className="asset-item"><span className="asset-number">{asset.num}</span><div className="asset-icon">{i === 0 ? <Layers3 size={27}/> : i === 1 ? <ScanSearch size={27}/> : <Network size={27}/>}</div><h3>{asset.title}</h3><p>{asset.desc}</p></Reveal>)}</div>
+          <Reveal className="assets-note"><span><ShieldCheck size={17}/> RIGHTS & PRIVACY COME FIRST</span><p>Possession of data does not necessarily mean it can be licensed. Any opportunity requires independent legal, privacy, and commercial review.</p></Reveal>
+        </div>
+      </section>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    ease: easeOutCinematic,
-                    delay: 0.25,
-                  }}
-                  className="mx-auto mt-6 max-w-[680px] text-[clamp(1rem,2vw,1.35rem)] font-medium leading-[1.55] tracking-[-0.01em] text-white/72"
-                >
-                  Liorvel connects organizations with valuable, licensable data
-                  to the teams building advanced AI. We facilitate data
-                  partnerships that respect ownership, privacy, and responsible
-                  use.
-                </motion.p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+      <section id="how-it-works" className="process-section section-pad">
+        <div className="section-width">
+          <Reveal><div className="section-index"><span className="index-line"/>03 / OUR PROCESS</div></Reveal>
+          <div className="process-heading-row"><Reveal><h2 className="section-heading">From possibility<br/><span>to introduction.</span></h2></Reveal><Reveal delay={0.15}><p>A thoughtful first step. A selective process. The right connections when there is a fit.</p></Reveal></div>
+          <div className="process-list">{stages.map((item, i) => <Reveal key={item.number} delay={i * 0.08} className="process-row"><span className="process-no">{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><ArrowUpRight className="process-arrow" size={23} strokeWidth={1}/></Reveal>)}</div>
+          <Reveal className="process-cta"><PrimaryLink href="/approach">Explore our process</PrimaryLink></Reveal>
+        </div>
+      </section>
 
-          <AnimatePresence>
-            {!showMission && (
-              <motion.div
-                key="footer-layer"
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={layerMotion}
-                className="absolute bottom-20 left-1/2 w-full max-w-[700px] -translate-x-1/2 px-4 text-center sm:bottom-8"
-              >
-                <motion.p
-                  variants={footerMotion}
-                  className="mx-auto max-w-[700px] text-[clamp(1.6rem,4.5vw,3.2rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white sm:text-[clamp(1.9rem,4vw,3.4rem)]"
-                >
-                  Intelligence begins with data.
-                </motion.p>
+      <section className="privacy-section section-pad"><div className="section-width privacy-layout"><Reveal className="privacy-symbol"><span className="privacy-symbol-ring"><ShieldCheck size={66} strokeWidth={0.8}/></span></Reveal><Reveal className="privacy-copy" delay={0.1}><span className="eyebrow">BUILT ON CONSIDERATION</span><h2>Value should never<br/>come at the expense<br/>of <em>trust.</em></h2><p>We begin with a high-level conversation, not a request for raw datasets. Confidentiality, ownership, authorized use, and sharing boundaries belong at the center of any serious data partnership.</p><a href="/companies" className="underlined-link">For data-owning companies <ArrowUpRight size={18}/></a></Reveal></div></section>
 
-                <motion.span
-                  variants={footerMotion}
-                  className="mt-3 inline-block text-[0.85rem] uppercase tracking-[0.28em] text-white/50 sm:text-[0.95rem]"
-                >
-                  AI Data Sourcing &amp; Licensing.
-                </motion.span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+      <section className="faq-section section-pad"><div className="section-width faq-layout"><Reveal><div className="section-index"><span className="index-line"/>04 / CLARITY FIRST</div><h2 className="section-heading">Good questions.<br/><span>Clear answers.</span></h2></Reveal><Reveal delay={0.1}><FAQ/></Reveal></div></section>
 
-          <MissionButton
-            showMission={showMission}
-            onToggle={() => setShowMission((current) => !current)}
-          />
-        </section>
-      </motion.div>
-    </main>
-  );
+      <section className="final-cta section-pad"><div className="final-cta-light" aria-hidden="true"/><Reveal className="final-cta-content"><span className="eyebrow">05 / THE NEXT STEP</span><h2>What is your data<br/><em>capable of?</em></h2><p>Start with a confidential, high-level introduction. We&apos;ll help assess whether further exploration makes sense.</p><PrimaryLink light>Request an initial assessment</PrimaryLink></Reveal></section>
+    </main><Footer/>
+  </div>;
 }

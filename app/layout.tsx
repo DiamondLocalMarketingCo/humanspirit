@@ -1,33 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Outfit } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const geist = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
+const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Liorvel | AI Data Sourcing & Licensing",
-  description: "Liorvel connects data owners with AI developers through responsible data sourcing and licensing partnerships.",
+  title: { default: "Liorvel | Independent Data Advisory & Partnerships", template: "%s | Liorvel" },
+  description: "Liorvel qualifies business data opportunities and introduces companies to brokers and licensing partners. Explore whether your company's data holds untapped potential.",
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-[#020407] text-white">{children}</body>
-    </html>
-  );
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en" className={geist.variable + " " + outfit.variable}><body>{children}</body></html>;
 }
