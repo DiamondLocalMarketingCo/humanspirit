@@ -24,9 +24,16 @@ export default function Home() {
         <div className="hero-art" aria-hidden="true" />
         <div className="hero-city" aria-hidden="true"><Image src={skyline} alt="" fill priority sizes="(max-width: 650px) 1200px, 100vw" className="hero-city-image" /></div>
         <div className="hero-inner">
-          <Reveal delay={0.1}><h1 id="home-heading">
-            <span className="hero-value-line">Monetize your</span>
-            <span className="hero-value-line"><em>company data.</em></span>
+          <Reveal delay={0.1}><h1 id="home-heading" aria-label="Monetize your company’s operational data.">
+            <span className="hero-value-desktop" aria-hidden="true">
+              <span className="hero-value-line">Monetize your company&apos;s</span>
+              <span className="hero-value-line"><em>operational data.</em></span>
+            </span>
+            <span className="hero-value-mobile" aria-hidden="true">
+              <span className="hero-value-line">Monetize your</span>
+              <span className="hero-value-line">company&apos;s</span>
+              <span className="hero-value-line"><em>operational data.</em></span>
+            </span>
           </h1></Reveal>
           <Reveal delay={0.19}><p className="hero-description">We assess your data opportunity and connect qualified companies with established brokers and licensing partners.</p></Reveal>
           <Reveal delay={0.25}><div className="hero-actions">
