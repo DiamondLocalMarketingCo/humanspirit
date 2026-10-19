@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
-import { Footer, Header, QualificationForm, Reveal } from "../components/Experience";
+import { Header, Footer } from "../components/Experience";
+import QualificationWizard from "../components/QualificationWizard";
 
 export const metadata: Metadata = {
-  title: "Request an Assessment",
-  description: "Tell Liorvel about your company and its potential data assets. No raw or sensitive data required.",
+  title: "Check Your Data",
+  description: "A short, secure preliminary assessment of your company's systems, operations and potential data licensing opportunity. No raw data required."
 };
 
 export default function Contact() {
-  return <div className="site"><Header /><main>
-    <section className="page-hero contact-hero"><div className="page-hero-inner"><Reveal>
-      <h1>Let&apos;s explore<br /><em>the opportunity.</em></h1>
-      <p>Share a few details about your company. We&apos;ll review the potential fit.</p>
-    </Reveal></div></section>
-
-    <section id="qualification" className="page-body contact-section">
-      <div className="section-width contact-layout compact-contact-layout">
-        <Reveal className="contact-intro"><h2>Start here.</h2>
-          <p>Only a high-level overview is needed. Please don&apos;t submit confidential information or raw datasets.</p>
-          <p className="partner-note">Brokers and licensing partners can use this form for introductions too.</p>
-        </Reveal>
-        <Reveal delay={0.1}><QualificationForm /></Reveal>
-      </div>
-    </section>
-  </main><Footer /></div>;
+  return <div className="site">
+    <Header />
+    <main className="intake-page">
+      <section className="intake-header">
+        <h1>Check your data.</h1>
+        <p>Tell us about your business. We’ll explore whether an introduction to a data broker or licensing partner could be a fit.</p>
+      </section>
+      <section className="intake-form-section" id="qualification" aria-label="Company qualification form">
+        <QualificationWizard />
+      </section>
+    </main>
+    <Footer />
+  </div>;
 }
