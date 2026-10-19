@@ -306,3 +306,75 @@ radial-gradient(ellipse 70% 46% at 50% 49%,rgba(10,11,15,.35),transparent)}
   .hero h1{font-size:clamp(30px,8.8vw,46px)!important;letter-spacing:-.055em!important;line-height:1.17!important}
   .hero-title-mobile .hero-title-line{display:block;white-space:nowrap}
 }
+
+
+/* Homepage value proposition and understated licensing range, desktop and mobile. */
+.hero .hero-value-line{
+  display:block;
+  white-space:nowrap;
+}
+.hero h1{
+  max-width:1050px;
+  margin-inline:auto;
+}
+.hero-deal-figure{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  margin:30px auto 0;
+  max-width:440px;
+  text-align:center;
+  text-shadow:0 2px 14px rgba(0,0,0,.4);
+}
+.hero-deal-figure strong{
+  display:block;
+  color:#eee6ff;
+  font-size:clamp(25px,2.5vw,34px);
+  font-weight:510;
+  letter-spacing:-.055em;
+  line-height:1.13;
+  font-variant-numeric:tabular-nums;
+}
+.hero-deal-figure>span{
+  color:#f0eaf5;
+  font-size:12px;
+  font-weight:490;
+  line-height:1.35;
+}
+.hero-deal-figure small{
+  display:block;
+  max-width:350px;
+  color:rgba(237,232,243,.79);
+  font-size:10px;
+  line-height:1.45;
+}
+@media(max-width:650px){
+  .hero h1{
+    font-size:clamp(34px,9.4vw,49px)!important;
+    line-height:1.14!important;
+    letter-spacing:-.06em!important;
+    margin-bottom:18px;
+    text-wrap:normal;
+  }
+  .hero .hero-value-line{display:block;white-space:nowrap}
+  .hero-description{
+    max-width:340px;
+    margin-bottom:23px;
+    font-size:15px;
+    line-height:1.5;
+  }
+  .hero-actions{gap:18px}
+  .hero-deal-figure{
+    margin-top:24px;
+    gap:4px;
+    max-width:325px;
+  }
+  .hero-deal-figure strong{font-size:27px}
+  .hero-deal-figure>span{font-size:11px}
+  .hero-deal-figure small{font-size:10px;max-width:295px}
+}
+@media(max-width:360px){
+  .hero h1{font-size:32px!important}
+  .hero-deal-figure strong{font-size:25px}
+}
