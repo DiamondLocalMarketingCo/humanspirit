@@ -121,7 +121,7 @@ a{color:inherit;text-decoration:none}button,input,select,textarea{font:inherit}b
 .hero{isolation:isolate;overflow:hidden;background:#273040}
 .hero-art{
   inset:0;z-index:-3;filter:none;
-  radial-gradient(ellipse 68% 43% at 50% 68%,rgba(255,182,111,.30),transparent 95%),
+  background:radial-gradient(ellipse 68% 43% at 50% 68%,rgba(255,182,111,.30),transparent 95%),
    radial-gradient(ellipse 88% 55% at 47% 47%,rgba(231,115,125,.24),transparent 90%),
    linear-gradient(180deg,#443545 0%,#6b4656 24%,#9e5962 42%,#cc6d66 56%,#ed8858 70%,#aa6667 81%,#3c3946 91%,#101115 100%);
 }
