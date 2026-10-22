@@ -400,3 +400,10 @@ radial-gradient(ellipse 70% 46% at 50% 49%,rgba(10,11,15,.35),transparent)}
   }
   .hero-value-mobile .hero-value-line{display:block;white-space:nowrap}
 }
+
+/* Program fit assessment */
+.wizard-assessment{margin:24px 0;padding:20px 22px;border:1px solid #d5d1cb;border-radius:8px;background:#f8f7f5;color:#252321}
+.wizard-assessment strong{display:block;font-size:15px;margin-bottom:13px}
+.wizard-assessment p{font-size:14px;line-height:1.65;margin:8px 0}
+.wizard-assessment-unlikely{border-color:#b88d80;background:#fff9f7}
+.wizard-assessment-review{border-color:#c7b78d;background:#fdfbf5}

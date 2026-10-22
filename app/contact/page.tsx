@@ -13,7 +13,7 @@ export default function Contact() {
     <main className="intake-page">
       <section className="intake-header">
         <h1>Check your data.</h1>
-        <p>Tell us about your business. We’ll explore whether an introduction to a data broker or licensing partner could be a fit.</p>
+        <p>Check your preliminary fit for active or defunct company data opportunities. Liorvel screens inquiries independently; this is not micro1's official application.</p>
       </section>
       <section className="intake-form-section" id="qualification" aria-label="Company qualification form">
         <QualificationWizard />

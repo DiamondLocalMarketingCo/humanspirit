@@ -13,7 +13,7 @@ const examples = [
 const steps = [
   { title: "Discover", description: "We learn about your business and the information it produces." },
   { title: "Qualify", description: "We assess potential fit, quality, rights, and privacy considerations." },
-  { title: "Connect", description: "Where appropriate, we introduce you to a relevant broker or licensing partner." },
+  { title: "Connect", description: "Where appropriate, we connect you to a relevant program using an official referral application link." },
 ];
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
               <span className="hero-value-line"><em>operational data.</em></span>
             </span>
           </h1></Reveal>
-          <Reveal delay={0.19}><p className="hero-description">We assess your data opportunity and connect qualified companies with established brokers and licensing partners.</p></Reveal>
+          <Reveal delay={0.19}><p className="hero-description">Independent qualification screening for operational data licensing, including opportunities through micro1's Company Referral Program.</p></Reveal>
           <Reveal delay={0.25}><div className="hero-actions">
             <PrimaryLink>Check your eligibility</PrimaryLink>
             <a href="#how-it-works" className="text-link">How it works <ArrowDown size={17} /></a>
@@ -43,7 +43,7 @@ export default function Home() {
           <Reveal delay={0.32}>
             <div className="hero-deal-figure" aria-label="Illustrative transaction values from $100,000 to $2 million or more; results not guaranteed">
               <strong>$100K–$2M+</strong>
-              <span>Illustrative data licensing deal range</span>
+              <span>Potential micro1 data licensing range</span>
               <small>Subject to evaluation and negotiated terms. No guaranteed payout.</small>
             </div>
           </Reveal>
@@ -65,7 +65,7 @@ export default function Home() {
           </div>
           <Reveal className="assets-note">
             <span><ShieldCheck size={17} /> Rights and privacy first</span>
-            <p>Eligibility depends on data rights, quality, sensitivity, and partner demand.</p>
+            <p>micro1 currently looks for mature operations, documented workflows, primarily English-language data and at least 30 employees for enterprise opportunities.</p>
           </Reveal>
         </div>
       </section>

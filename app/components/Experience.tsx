@@ -63,22 +63,28 @@ export function Footer() {
         <div><span className="footer-heading">Connect</span><a href="/contact">Contact <ArrowUpRight size={13}/></a><a href="/contact">Request an assessment <ArrowUpRight size={13}/></a></div>
       </div>
     </div>
-    <div className="footer-bottom"><span>© {new Date().getFullYear()} Liorvel</span><span>Introductions and transactions are not guaranteed.</span><a href="/legacy">Previous website <ArrowUpRight size={12}/></a></div>
+    <div className="footer-bottom"><span>© {new Date().getFullYear()} Liorvel</span><span>Independent referral screening. Not endorsed by micro1. No outcome is guaranteed.</span><a href="/legacy">Previous website <ArrowUpRight size={12}/></a></div>
   </footer>;
 }
 
 const faqs = [
-  { q: "What does Liorvel do?", a: "We evaluate potential business data opportunities and introduce qualified companies to relevant brokers or licensing partners." },
-  { q: "What types of data may qualify?", a: "Examples include operational records, specialized documentation, and structured histories. Suitability depends on rights, quality, privacy, and market demand." },
-  { q: "Do I need to send any data?", a: "No. We only need a high-level description to begin. Please do not submit confidential records or personal data." },
-  { q: "Is a deal or payment guaranteed?", a: "No. Any introduction or licensing arrangement depends on independent review and agreement between the relevant parties." },
+  { q: "How is Liorvel connected to micro1?", a: "Liorvel independently screens companies for programs including micro1's public Company Referral Program. Liorvel is not micro1 and is not claiming exclusive, certified or endorsed status." },
+  { q: "Which companies meet micro1's enterprise requirements?", a: "micro1 seeks operationally mature businesses with 30+ employees, substantial documentation, repeatable workflows and predominantly English-language records. US businesses are prioritized, followed by other Western markets." },
+  { q: "Can a company that has closed qualify?", a: "micro1's separate defunct-company listing considers former companies in certain countries with substantial Slack or Microsoft Teams data. The overview lists 25+ employees while the detailed criteria reference 30+. Borderline cases require verification." },
+  { q: "Which datasets are relevant?", a: "Examples include SOPs, knowledge bases, internal documents, project histories, customer service operations, CRM metadata and examples of decision-making in everyday work." },
+  { q: "Do I need to upload any actual data?", a: "No. The initial Liorvel assessment only asks for general company information. Do not submit sensitive records, passwords, personal information or confidential files." },
+  { q: "Does submitting apply directly to micro1?", a: "No. This is a preliminary screening sent to Liorvel. An official micro1 application must be completed via an eligible referral link for attribution. micro1 decides whether any company qualifies." },
+  { q: "Who owns the information after licensing?", a: "micro1 states that participating companies retain ownership of their underlying data. Sharing permissions, permitted use, redaction, retention and deletion are addressed in a separate contractual agreement." },
+  { q: "How much can companies earn?", a: "micro1 publicly illustrates potential six- and seven-figure data partnerships, depending on value, quality, volume, use and contractual terms. No amount, approval or payment is guaranteed." },
+  { q: "Does Liorvel receive referral compensation?", a: "Liorvel may qualify for a referral reward if an eligible company applies through the correct referral link and reaches micro1's payment milestones. A referral is not a guarantee of selection or payment." },
+  { q: "What if I don't meet the requirements?", a: "The screening will flag likely gaps and allow you to submit for individual consideration. That does not change micro1's own criteria or imply acceptance." },
 ];
 
 export function FAQ() {
   const [active, setActive] = useState<number | null>(0);
   return <div className="faq-list">{faqs.map((item, i) => <div className={"faq-item " + (active === i ? "open" : "")} key={item.q}>
     <button type="button" aria-expanded={active === i} onClick={() => setActive(active === i ? null : i)}><span>{item.q}</span><span className="faq-icon">{active === i ? "−" : "+"}</span></button>
-    {active === i && <div className="faq-answer"><p>{item.a}</p></div>}
+    {active === i && <div className="faq-answer"><p>{item.a}</p><a href="https://www.micro1.ai/data-partnerships" target="_blank" rel="noopener noreferrer" className="underlined-link">micro1 official details <ArrowUpRight size={14}/></a></div>}
   </div>)}</div>;
 }
 

@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
+import { assessCompany } from "../../lib/assessment";
 
 export const runtime = "nodejs";
 function clean(value: unknown, max: number) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 const rightsChoices = ["Yes, subject to review", "Not sure / needs approval", "No / restricted"];
-const allowedSizes = ["1–10", "11–50", "51–200", "201–1,000", "1,001–5,000", "5,001+", "Prefer not to say"];
+const allowedSizes = ["1–10", "11–24", "25–29", "30–49", "50–200", "201–1,000", "1,001+", "Prefer not to say"];
+const allowedCountries = ["United States","United Kingdom","Canada","India","Australia","Singapore","Ireland","Netherlands","Germany","France","Other"];
+const noStore = {"Cache-Control":"no-store"};
 
 export async function POST(req: NextRequest) {
+  const origin = req.headers.get("origin");
+  const host = req.headers.get("host");
+  if (origin && (!host || ![ "https://" + host, "http://localhost:3000" ].includes(origin))) return NextResponse.json({error:"Invalid origin"},{status:403,headers:noStore});
+  if (!(req.headers.get("content-type") || "").startsWith("application/json")) return NextResponse.json({error:"JSON required."},{status:415,headers:noStore});
   let data: Record<string, unknown>;
   try {
     const raw = await req.text();
@@ -19,7 +26,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Honeypot: discard bot submissions without sending email.
-  if (clean(data.fax, 100)) return NextResponse.json({success:true});
+  if (clean(data.fax, 100)) return NextResponse.json({success:true},{headers:noStore});
 
   const company = clean(data.company,160);
   const website = clean(data.website,200);
@@ -32,16 +39,27 @@ export async function POST(req: NextRequest) {
   const email = clean(data.email,254);
   const role = clean(data.role,120);
   const details = clean(data.details,1200);
+  const companyStatus = clean(data.companyStatus,20);
+  const country = clean(data.country,60);
+  const english = clean(data.english,10);
+  const documentation = clean(data.documentation,30);
+  const workflows = clean(data.workflows,10);
+  const communications = clean(data.communications,20);
   const systems = Array.isArray(data.systems)
     ? data.systems.filter((v):v is string=>typeof v==="string").slice(0,28).map(v=>v.trim().slice(0,80)).filter(Boolean)
     : [];
 
   if (!company || !sector || !allowedSizes.includes(employees) || !dataType || !rightsChoices.includes(rights) ||
       !name || !role || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || systems.length === 0 || data.consent !== "yes" ||
-      (founded && !/^(18|19|20)\d{2}$/.test(founded))) {
+      (founded && !/^(18|19|20)\d{2}$/.test(founded)) ||
+      !["operating","closed"].includes(companyStatus) || !allowedCountries.includes(country) ||
+      !["Yes","Some","No"].includes(english) || !["Strong / established","Some","Very little"].includes(documentation) ||
+      !["Yes","Some","No"].includes(workflows) ||
+      (companyStatus === "closed" && !["Extensive","Substantial","Limited","None"].includes(communications))) {
     return NextResponse.json({error:"Please complete the required fields and confirm permission to contact you."},{status:400});
   }
 
+  const assessment = assessCompany({companyStatus, country, english, documentation, workflows, communications, systems, rights, employees});
   const key = process.env.RESEND_API_KEY;
   const to = process.env.LIORVEL_INQUIRY_EMAIL;
   const from = process.env.LIORVEL_FROM_EMAIL;
@@ -51,9 +69,20 @@ export async function POST(req: NextRequest) {
 
   const content = [
     "New Liorvel company assessment", "",
+    "Screening: " + assessment.label + " (" + assessment.status + ")",
+    "Program: " + assessment.program,
+    "Standard requirements not met: " + (assessment.blockers.join(" | ") || "None"),
+    "Manual checks: " + (assessment.checks.join(" | ") || "None"),
+    "Note: This is NOT an official micro1 application. A unique micro1 referral link is required for referral attribution.", "",
     "Company: " + company,
     "Website: " + (website || "Not provided"),
     "Industry: " + sector,
+    "Business status: " + companyStatus,
+    "Country: " + country,
+    "English documentation: " + english,
+    "Documentation depth: " + documentation,
+    "Recurring workflows: " + workflows,
+    "Chat history: " + (communications || "Not applicable"),
     "Full-time employees: " + employees,
     "Year founded: " + (founded || "Not provided"),
     "Business systems: " + systems.join(", "),
@@ -70,10 +99,10 @@ export async function POST(req: NextRequest) {
     const sent = await fetch("https://api.resend.com/emails", {
       method:"POST",
       headers:{"Authorization":"Bearer "+key,"Content-Type":"application/json"},
-      body:JSON.stringify({from,to:[to],reply_to:email,subject:"Liorvel assessment: "+company,text:content}),
+      body:JSON.stringify({from,to:[to],reply_to:email,subject:"Liorvel [" + assessment.status.toUpperCase() + "]: " + company,text:content}),
       cache:"no-store"
     });
-    if (!sent.ok) return NextResponse.json({error:"Delivery is temporarily unavailable. Please try again later."},{status:502});
+    if (!sent.ok) return NextResponse.json({error:"Delivery is temporarily unavailable. Please try again later."},{status:502,headers:noStore});
     return NextResponse.json({success:true});
   } catch {
     return NextResponse.json({error:"Delivery is temporarily unavailable. Please try again later."},{status:502});

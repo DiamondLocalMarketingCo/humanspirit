@@ -24,7 +24,7 @@ export default function Companies() {
     <section className="page-body section-pad"><div className="section-width">
       <div className="section-intro-row">
         <Reveal><h2 className="section-heading">What we<br /><span>look for.</span></h2></Reveal>
-        <Reveal delay={0.08}><p>Potentially useful information often comes from everyday operations.</p></Reveal>
+        <Reveal delay={0.08}><p>micro1's enterprise program prioritizes operationally mature companies with at least 30 employees, strong documentation, repeatable workflows and primarily English-language data. A separate defunct-company opportunity looks for substantial historical Teams or Slack records.</p></Reveal>
       </div>
       <div className="asset-grid">
         {examples.map(({title, description, icon: Icon}, i) => <Reveal key={title} className="asset-item" delay={i * 0.08}>

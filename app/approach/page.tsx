@@ -17,7 +17,7 @@ export default function Approach() {
   return <div className="site"><Header /><main>
     <section className="page-hero"><div className="page-hero-inner"><Reveal>
       <h1>Finding the right<br /><em>data connections.</em></h1>
-      <p>We help businesses explore data opportunities, then make introductions when there is a suitable match.</p>
+      <p>We independently assess potential data opportunities and provide official referral pathways, including micro1's Company Referral Program, when there is a suitable match.</p>
     </Reveal></div></section>
 
     <section className="page-body section-pad"><div className="section-width">
