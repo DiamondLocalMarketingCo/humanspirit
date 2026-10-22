@@ -92,7 +92,7 @@ export default function QualificationWizard() {
       });
       const payload: { error?: string } = await response.json();
       if (!response.ok) throw new Error(payload.error || "We could not deliver your inquiry.");
-      setStatus("success"); setMessage("Your inquiry was delivered to Liorvel for preliminary review. An official micro1 referral application through a unique referral link would be a separate next step.");
+      setStatus("success"); setMessage("Your inquiry was delivered to Liorvel for review. If we see a potential fit, we will contact you about possible next steps.");
     } catch(e) {
       setStatus("error"); setMessage(e instanceof Error ? e.message : "Delivery is temporarily unavailable.");
     }
@@ -153,7 +153,7 @@ export default function QualificationWizard() {
 
         {step === 2 && <div className="wizard-stage" key="assessment" aria-live="polite">
           <h2>{assessment.label}.</h2>
-          <p className="wizard-explain">An independent preliminary screening based on micro1 published and referral-dashboard criteria. This is not an official micro1 decision.</p>
+          <p className="wizard-explain">A preliminary assessment based on company size, data quality, business operations, and other eligibility factors. It is not a final approval or offer.</p>
           <div className={"wizard-assessment wizard-assessment-" + assessment.status}><strong>{assessment.program}</strong>
           {assessment.blockers.map(v=><p key={v}>• {v}</p>)}
           {assessment.checks.map(v=><p key={v}>• {v}</p>)}
@@ -180,6 +180,6 @@ export default function QualificationWizard() {
         </div>
       </form>}
     </div>
-    <p className="wizard-privacy"><LockKeyhole size={15}/> No connections, logins, or raw datasets are requested. Liorvel operates independently from micro1.</p>
+    <p className="wizard-privacy"><LockKeyhole size={15}/> No connections, logins, or raw datasets are requested.</p>
   </div>;
 }

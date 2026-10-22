@@ -7,7 +7,7 @@ const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: 
 
 export const metadata: Metadata = {
   title: { default: "Liorvel | Business Data Partnerships", template: "%s | Liorvel" },
-  description: "Liorvel independently screens companies for possible operational data licensing opportunities, including referrals to micro1. No acceptance or compensation is guaranteed.",
+  description: "Liorvel screens company data opportunities and connects suitable businesses with independent licensing partners. Initial screening does not guarantee an offer or compensation.",
   robots: { index: true, follow: true },
 };
 

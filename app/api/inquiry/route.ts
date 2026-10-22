@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
     "Program: " + assessment.program,
     "Standard requirements not met: " + (assessment.blockers.join(" | ") || "None"),
     "Manual checks: " + (assessment.checks.join(" | ") || "None"),
-    "Note: This is NOT an official micro1 application. A unique micro1 referral link is required for referral attribution.", "",
+    "Internal note: This is for Liorvel review. Any external referral application is a separate step and must use the correct referral tracking process.", "",
     "Company: " + company,
     "Website: " + (website || "Not provided"),
     "Industry: " + sector,
