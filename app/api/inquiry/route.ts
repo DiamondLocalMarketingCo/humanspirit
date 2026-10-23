@@ -60,11 +60,9 @@ export async function POST(req: NextRequest) {
   }
 
   const assessment = assessCompany({companyStatus, country, english, documentation, workflows, communications, systems, rights, employees});
-  // Prefer authenticated, server-side sending where available.
-  // FormSubmit's Cloudflare protection blocks Vercel server-to-server calls,
-  // so browsers may use the separate, explicitly signaled AJAX fallback.
+  // Only deliver private applicant data through the authenticated mail provider.
   const key = process.env.RESEND_API_KEY;
-  const to = process.env.LIORVEL_INQUIRY_EMAIL || "mdarwish0523@gmail.com";
+  const to = process.env.LIORVEL_INQUIRY_EMAIL;
   const from = process.env.LIORVEL_FROM_EMAIL;
 
   const content = [
@@ -95,30 +93,48 @@ export async function POST(req: NextRequest) {
     "Consent: Contact about this inquiry only (does not permit data sharing)"
   ].join("\n");
 
-  if (key && from) {
-    try {
-      const sent = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          from, to: [to], reply_to: email,
-          subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
-          text: content
-        }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(10000)
-      });
-      if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
-      console.warn("Liorvel Resend delivery rejected", { httpStatus: sent.status });
-    } catch {
-      console.warn("Liorvel Resend delivery temporarily unavailable");
-    }
+  if (!key || !from || !to) {
+    console.error("Liorvel inquiry email configuration is incomplete", {
+      hasApiKey: Boolean(key),
+      hasFrom: Boolean(from),
+      hasRecipient: Boolean(to)
+    });
+    return NextResponse.json(
+      { error: "Submission delivery is temporarily unavailable. Please try again later.", code: "EMAIL_NOT_CONFIGURED" },
+      { status: 503, headers: noStore }
+    );
   }
 
-  // Signals the website to use the provider's browser AJAX endpoint.
-  // Do not attempt this same request from the Vercel server.
-  return NextResponse.json(
-    { error: "Email delivery requires the browser form service.", code: "CLIENT_FORM_FALLBACK" },
-    { status: 503, headers: noStore }
-  );
+  try {
+    const sent = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from, to: [to], reply_to: email,
+        subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
+        text: content
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(12000)
+    });
+    if (!sent.ok) {
+      const providerError = await sent.json().catch(() => null) as { name?: string; message?: string } | null;
+      console.error("Liorvel inquiry email rejected by Resend", {
+        httpStatus: sent.status,
+        type: typeof providerError?.name === "string" ? providerError.name.slice(0, 80) : "unknown",
+        reason: typeof providerError?.message === "string" ? providerError.message.slice(0, 300) : "unknown"
+      });
+      return NextResponse.json(
+        { error: "We could not deliver your inquiry. Please try again later.", code: "EMAIL_PROVIDER_REJECTED" },
+        { status: 502, headers: noStore }
+      );
+    }
+    return NextResponse.json({ success: true }, { headers: noStore });
+  } catch {
+    console.error("Liorvel inquiry email transport unavailable");
+    return NextResponse.json(
+      { error: "Delivery is temporarily unavailable. Please try again later.", code: "EMAIL_PROVIDER_UNAVAILABLE" },
+      { status: 502, headers: noStore }
+    );
+  }
 }
