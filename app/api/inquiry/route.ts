@@ -60,9 +60,9 @@ export async function POST(req: NextRequest) {
   }
 
   const assessment = assessCompany({companyStatus, country, english, documentation, workflows, communications, systems, rights, employees});
-  // Prefer the configured, authenticated mail transport. Until Vercel
-  // environment access is available, route form messages through FormSubmit.
-  // That provider requires the recipient to confirm the mailbox once.
+  // Prefer authenticated, server-side sending where available.
+  // FormSubmit's Cloudflare protection blocks Vercel server-to-server calls,
+  // so browsers may use the separate, explicitly signaled AJAX fallback.
   const key = process.env.RESEND_API_KEY;
   const to = process.env.LIORVEL_INQUIRY_EMAIL || "mdarwish0523@gmail.com";
   const from = process.env.LIORVEL_FROM_EMAIL;
@@ -95,68 +95,30 @@ export async function POST(req: NextRequest) {
     "Consent: Contact about this inquiry only (does not permit data sharing)"
   ].join("\n");
 
-  try {
-    if (key && from) {
-      try {
-        const sent = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
-          body: JSON.stringify({
-            from, to: [to], reply_to: email,
-            subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
-            text: content
-          }),
-          cache: "no-store",
-          signal: AbortSignal.timeout(10000)
-        });
-        if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
-      } catch {
-        // A transport outage should not prevent the alternative route.
-      }
-    }
-
-    // No client-side API keys, no public destination address in the page.
-    // First use sends a mailbox activation email; messages remain queued
-    // until the recipient confirms that email.
-    const fallback = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        // FormSubmit checks the page origin; Node fetch has no Referer by default.
-        Referer: "https://www.liorvel.com/contact",
-        Origin: "https://www.liorvel.com"
-      },
-      body: JSON.stringify({
-        name, email,
-        company,
-        _subject: "New Liorvel assessment: " + company,
-        _template: "table",
-        _captcha: "false",
-        _url: "https://www.liorvel.com/contact",
-        message: content
-      }),
-      cache: "no-store",
-      signal: AbortSignal.timeout(12000)
-    });
-    const result = await fallback.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
-    // FormSubmit often returns HTTP 200 even for a rejected message, using
-    // the string "false". Only its explicit "true" confirms acceptance.
-    if (!fallback.ok || String(result?.success) !== "true") {
-      const activationPending = /activat|confirm.*email/i.test(result?.message || "");
-      console.warn("Liorvel form email transport rejected", {
-        provider: "formsubmit",
-        httpStatus: fallback.status,
-        reason: activationPending ? "recipient_activation_pending" : "provider_rejected"
+  if (key && from) {
+    try {
+      const sent = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from, to: [to], reply_to: email,
+          subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
+          text: content
+        }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(10000)
       });
-      return NextResponse.json({
-        error: activationPending
-          ? "Email notifications must be activated before submissions can be delivered. Please try again after activation."
-          : "Delivery is temporarily unavailable. Please try again later."
-      }, { status: 502, headers: noStore });
+      if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
+      console.warn("Liorvel Resend delivery rejected", { httpStatus: sent.status });
+    } catch {
+      console.warn("Liorvel Resend delivery temporarily unavailable");
     }
-    return NextResponse.json({ success: true }, { headers: noStore });
-  } catch {
-    return NextResponse.json({ error: "Delivery is temporarily unavailable. Please try again later." }, { status: 502, headers: noStore });
   }
+
+  // Signals the website to use the provider's browser AJAX endpoint.
+  // Do not attempt this same request from the Vercel server.
+  return NextResponse.json(
+    { error: "Email delivery requires the browser form service.", code: "CLIENT_FORM_FALLBACK" },
+    { status: 503, headers: noStore }
+  );
 }
