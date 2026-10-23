@@ -120,7 +120,13 @@ export async function POST(req: NextRequest) {
     // until the recipient confirms that email.
     const fallback = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
       method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        // FormSubmit checks the page origin; Node fetch has no Referer by default.
+        Referer: "https://www.liorvel.com/contact",
+        Origin: "https://www.liorvel.com"
+      },
       body: JSON.stringify({
         name, email,
         company,
@@ -134,10 +140,22 @@ export async function POST(req: NextRequest) {
       signal: AbortSignal.timeout(12000)
     });
     const result = await fallback.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
-    if (!fallback.ok || !result || result.success === false || result.success === "false") {
-      return NextResponse.json({ error: "Delivery is temporarily unavailable. Please try again later." }, { status: 502, headers: noStore });
+    // FormSubmit often returns HTTP 200 even for a rejected message, using
+    // the string "false". Only its explicit "true" confirms acceptance.
+    if (!fallback.ok || String(result?.success) !== "true") {
+      const activationPending = /activat|confirm.*email/i.test(result?.message || "");
+      console.warn("Liorvel form email transport rejected", {
+        provider: "formsubmit",
+        httpStatus: fallback.status,
+        reason: activationPending ? "recipient_activation_pending" : "provider_rejected"
+      });
+      return NextResponse.json({
+        error: activationPending
+          ? "Email notifications must be activated before submissions can be delivered. Please try again after activation."
+          : "Delivery is temporarily unavailable. Please try again later."
+      }, { status: 502, headers: noStore });
     }
-    return NextResponse.json({ success: true, delivery: "formsubmit" }, { headers: noStore });
+    return NextResponse.json({ success: true }, { headers: noStore });
   } catch {
     return NextResponse.json({ error: "Delivery is temporarily unavailable. Please try again later." }, { status: 502, headers: noStore });
   }
