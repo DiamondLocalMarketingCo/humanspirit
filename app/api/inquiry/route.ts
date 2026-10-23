@@ -97,18 +97,22 @@ export async function POST(req: NextRequest) {
 
   try {
     if (key && from) {
-      const sent = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          from, to: [to], reply_to: email,
-          subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
-          text: content
-        }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(10000)
-      });
-      if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
+      try {
+        const sent = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from, to: [to], reply_to: email,
+            subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
+            text: content
+          }),
+          cache: "no-store",
+          signal: AbortSignal.timeout(10000)
+        });
+        if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
+      } catch {
+        // A transport outage should not prevent the alternative route.
+      }
     }
 
     // No client-side API keys, no public destination address in the page.
