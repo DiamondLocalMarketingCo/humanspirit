@@ -92,7 +92,7 @@ export default function QualificationWizard() {
       });
       const payload: { error?: string } = await response.json();
       if (!response.ok) throw new Error(payload.error || "We could not deliver your inquiry.");
-      setStatus("success"); setMessage("Your inquiry was delivered to Liorvel for review. If we see a potential fit, we will contact you about possible next steps.");
+      setStatus("success"); setMessage("Your inquiry has been submitted for Liorvel review. If we see a potential fit, we will contact you about possible next steps.");
     } catch(e) {
       setStatus("error"); setMessage(e instanceof Error ? e.message : "Delivery is temporarily unavailable.");
     }
