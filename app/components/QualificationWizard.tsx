@@ -90,35 +90,8 @@ export default function QualificationWizard() {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, consent: form.consent ? "yes" : "no" })
       });
-      const payload: { error?: string; code?: string } = await response.json();
-      if (response.status === 503 && payload.code === "CLIENT_FORM_FALLBACK") {
-        // Direct browser delivery bypasses FormSubmit's challenge against
-        // traffic originating from Vercel servers.
-        const delivery = await fetch("https://formsubmit.co/ajax/mdarwish0523@gmail.com", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            company: form.company,
-            _subject: "New Liorvel assessment: " + form.company,
-            _template: "table",
-            _captcha: "false",
-            _url: "https://www.liorvel.com/contact",
-            message: summarize(form)
-          })
-        });
-        const deliveryResult: { success?: string | boolean; message?: string } | null =
-          await delivery.json().catch(() => null);
-        if (!delivery.ok || String(deliveryResult?.success) !== "true") {
-          if (/activat|confirm.*email/i.test(deliveryResult?.message || "")) {
-            throw new Error("Email notifications are awaiting activation by Liorvel. Please try submitting again once the address is confirmed.");
-          }
-          throw new Error("Email delivery is unavailable. Please try again later, or copy your inquiry.");
-        }
-      } else if (!response.ok) {
-        throw new Error(payload.error || "We could not deliver your inquiry.");
-      }
+      const payload: { error?: string } = await response.json();
+      if (!response.ok) throw new Error(payload.error || "We could not deliver your inquiry.");
       setStatus("success"); setMessage("Your inquiry has been accepted for Liorvel review. If we see a potential fit, we will contact you about possible next steps.");
     } catch(e) {
       setStatus("error"); setMessage(e instanceof Error ? e.message : "Delivery is temporarily unavailable.");
