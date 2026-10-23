@@ -60,12 +60,12 @@ export async function POST(req: NextRequest) {
   }
 
   const assessment = assessCompany({companyStatus, country, english, documentation, workflows, communications, systems, rights, employees});
+  // Prefer the configured, authenticated mail transport. Until Vercel
+  // environment access is available, route form messages through FormSubmit.
+  // That provider requires the recipient to confirm the mailbox once.
   const key = process.env.RESEND_API_KEY;
-  const to = process.env.LIORVEL_INQUIRY_EMAIL;
+  const to = process.env.LIORVEL_INQUIRY_EMAIL || "mdarwish0523@gmail.com";
   const from = process.env.LIORVEL_FROM_EMAIL;
-  if (!key || !to || !from) {
-    return NextResponse.json({error:"Email delivery isn't configured yet. Please copy your answers for later."},{status:503});
-  }
 
   const content = [
     "New Liorvel company assessment", "",
@@ -96,15 +96,45 @@ export async function POST(req: NextRequest) {
   ].join("\n");
 
   try {
-    const sent = await fetch("https://api.resend.com/emails", {
-      method:"POST",
-      headers:{"Authorization":"Bearer "+key,"Content-Type":"application/json"},
-      body:JSON.stringify({from,to:[to],reply_to:email,subject:"Liorvel [" + assessment.status.toUpperCase() + "]: " + company,text:content}),
-      cache:"no-store"
+    if (key && from) {
+      const sent = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from, to: [to], reply_to: email,
+          subject: "Liorvel [" + assessment.status.toUpperCase() + "]: " + company,
+          text: content
+        }),
+        cache: "no-store",
+        signal: AbortSignal.timeout(10000)
+      });
+      if (sent.ok) return NextResponse.json({ success: true }, { headers: noStore });
+    }
+
+    // No client-side API keys, no public destination address in the page.
+    // First use sends a mailbox activation email; messages remain queued
+    // until the recipient confirms that email.
+    const fallback = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(to), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name, email,
+        company,
+        _subject: "New Liorvel assessment: " + company,
+        _template: "table",
+        _captcha: "false",
+        _url: "https://www.liorvel.com/contact",
+        message: content
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(12000)
     });
-    if (!sent.ok) return NextResponse.json({error:"Delivery is temporarily unavailable. Please try again later."},{status:502,headers:noStore});
-    return NextResponse.json({success:true});
+    const result = await fallback.json().catch(() => null) as { success?: boolean | string; message?: string } | null;
+    if (!fallback.ok || !result || result.success === false || result.success === "false") {
+      return NextResponse.json({ error: "Delivery is temporarily unavailable. Please try again later." }, { status: 502, headers: noStore });
+    }
+    return NextResponse.json({ success: true, delivery: "formsubmit" }, { headers: noStore });
   } catch {
-    return NextResponse.json({error:"Delivery is temporarily unavailable. Please try again later."},{status:502});
+    return NextResponse.json({ error: "Delivery is temporarily unavailable. Please try again later." }, { status: 502, headers: noStore });
   }
 }
