@@ -18,7 +18,7 @@ const steps = [
 
 export default function Home() {
   return <div className="site site-home">
-    <Header heroVariant />
+    <Header />
     <main>
       <section className="hero" aria-labelledby="home-heading">
         <div className="hero-art" aria-hidden="true"><Image src={mountainBackdrop} alt="" fill priority sizes="100vw" className="hero-landscape-image" /></div>
