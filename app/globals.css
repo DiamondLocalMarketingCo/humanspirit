@@ -407,3 +407,292 @@ radial-gradient(ellipse 70% 46% at 50% 49%,rgba(10,11,15,.35),transparent)}
 .wizard-assessment p{font-size:14px;line-height:1.65;margin:8px 0}
 .wizard-assessment-unlikely{border-color:#b88d80;background:#fff9f7}
 .wizard-assessment-review{border-color:#c7b78d;background:#fdfbf5}
+
+
+/* Liorvel mountain homepage: light, textured, Micro1-inspired editorial hero.
+   The supplied webbackground.webp is retained inside /app and optimized by Next/Image.
+   Dark interior pages, screening forms, and qualification behavior are unchanged. */
+.site-home .reading-progress{opacity:0}
+.site-home .hero{
+  min-height:760px;
+  height:100svh;
+  max-height:1180px;
+  padding:160px 24px 94px;
+  background:#d6e5ef;
+  color:#10151b;
+  isolation:isolate;
+  overflow:hidden;
+}
+.site-home .hero-art{
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  background:none;
+  filter:none;
+}
+.site-home .hero-landscape-image{
+  object-fit:cover;
+  object-position:center 53%;
+  filter:saturate(.86) contrast(.98);
+}
+.site-home .hero::after{
+  z-index:-2;
+  background:
+    linear-gradient(to bottom,
+      rgba(230,239,247,.12) 0%,
+      rgba(237,241,246,.04) 44%,
+      rgba(234,240,245,.04) 62%,
+      rgba(240,242,247,.28) 77%,
+      rgba(241,243,248,.74) 91%,
+      #f1f2f7 100%);
+}
+.site-home .hero::before{
+  z-index:1;
+  inset:0;
+  background:url("/liorvel-film-grain.svg") repeat;
+  background-size:224px 224px;
+  opacity:.28;
+  mix-blend-mode:multiply;
+  pointer-events:none;
+}
+.site-home .hero-inner{
+  max-width:1020px;
+  margin:0;
+  transform:translateY(-30px);
+  position:relative;
+  z-index:2;
+}
+.site-home .hero h1{
+  color:#10151b;
+  font-size:clamp(45px,4.35vw,67px);
+  font-weight:600;
+  letter-spacing:-.058em!important;
+  line-height:1.08!important;
+  max-width:990px;
+  margin:0 auto 21px;
+  text-shadow:none;
+}
+.site-home .hero h1 em{
+  color:#10151b;
+  font-style:normal;
+}
+.site-home .hero-description{
+  max-width:655px;
+  margin:0 auto 30px;
+  color:#252b32;
+  font-size:clamp(15px,1.18vw,17px);
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:-.012em;
+  text-shadow:none;
+}
+.site-home .hero-actions{gap:26px}
+.site-home .hero .primary-link{
+  min-height:51px;
+  gap:13px;
+  background:#fff;
+  color:#111319;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  box-shadow:0 2px 16px rgba(21,34,47,.07);
+}
+.site-home .hero .primary-link>span:first-child{padding-left:19px}
+.site-home .hero .primary-link-icon{
+  margin:4px;
+  width:43px;
+  border-radius:6px;
+  color:#dfd5ff;
+  background:#0b0c11;
+}
+.site-home .hero .primary-link:hover{background:#f6f5ff;box-shadow:0 7px 25px rgba(21,34,47,.12)}
+.site-home .hero .text-link{color:#171d23;font-size:13px;font-weight:600}
+.site-home .hero .text-link:hover{color:#3c3564}
+.site-home .hero-deal-figure{
+  margin:25px auto 0;
+  width:max-content;
+  max-width:min(94vw,460px);
+  gap:4px;
+  padding:12px 27px 13px;
+  background:rgba(248,249,251,.83);
+  border:1px solid rgba(255,255,255,.73);
+  border-radius:11px;
+  box-shadow:0 5px 28px rgba(30,48,66,.07);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+  text-shadow:none;
+}
+.site-home .hero-deal-figure strong{color:#141b24;font-size:clamp(24px,2.2vw,30px);font-weight:600}
+.site-home .hero-deal-figure>span{color:#2b333c;font-size:12px}
+.site-home .hero-deal-figure small{color:#454e5a;font-size:10px;line-height:1.4}
+
+/* Airy three-part header over the light hero, with the usual dark nav on scroll. */
+.site-home .site-header--hero{
+  top:44px;
+  padding:0 26px;
+  transition:top .22s ease;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-pill{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  align-items:start;
+  gap:0;
+  width:100%;
+  min-height:50px;
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-brand{
+  grid-column:2;
+  grid-row:1;
+  min-width:0;
+  justify-self:center;
+  margin-top:-4px;
+}
+.site-home .site-header--hero:not(.is-scrolled) .brand-logo{
+  width:130px;
+  height:48px;
+  filter:brightness(0);
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-links{
+  grid-column:1;
+  grid-row:1;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
+  padding:9px 0 0;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-links a{
+  color:#10151b;
+  font-size:12px;
+  font-weight:550;
+  line-height:1.25;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-links a:hover{color:#55457c}
+.site-home .site-header--hero:not(.is-scrolled) .nav-contact{
+  grid-column:3;
+  grid-row:1;
+  justify-self:end;
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  min-height:49px;
+  padding:4px 4px 4px 15px;
+  border-radius:9px;
+  background:#fff;
+  color:#10151b;
+  box-shadow:0 2px 15px rgba(20,32,46,.09);
+  font-weight:600;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-contact svg{
+  background:#0c0d12;
+  color:#e4d8ff;
+  width:40px;
+  height:40px;
+  padding:11px;
+  border-radius:6px;
+}
+.site-home .site-header--hero:not(.is-scrolled) .nav-contact:hover{
+  background:#f7f5ff;
+}
+.site-home .site-header--hero.is-scrolled{top:14px}
+.site-home .site-header--hero.is-scrolled .nav-pill{
+  box-shadow:0 12px 36px rgba(0,0,0,.27);
+}
+@media(max-width:900px){
+  .site-home .hero{min-height:740px}
+  .site-home .hero h1{font-size:clamp(42px,6vw,61px)}
+  .site-home .site-header--hero:not(.is-scrolled) .nav-links{gap:8px}
+}
+@media(max-width:650px){
+  .site-home .site-header--hero{top:16px;padding:0 16px}
+  .site-home .site-header--hero:not(.is-scrolled) .nav-pill{
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    align-items:center;
+    min-height:52px;
+    padding:0;
+  }
+  .site-home .site-header--hero:not(.is-scrolled) .nav-links{display:none}
+  .site-home .site-header--hero:not(.is-scrolled) .nav-brand{
+    grid-column:2;
+    grid-row:1;
+    margin:0;
+    justify-self:center;
+  }
+  .site-home .site-header--hero:not(.is-scrolled) .brand-logo{
+    width:108px;
+    height:41px;
+  }
+  .site-home .site-header--hero:not(.is-scrolled) .nav-mobile-toggle{
+    display:grid;
+    grid-column:1;
+    grid-row:1;
+    justify-self:start;
+    color:#111820;
+    padding:7px;
+  }
+  .site-home .site-header--hero:not(.is-scrolled) .nav-contact{
+    grid-column:3;
+    grid-row:1;
+    justify-self:end;
+    min-height:38px;
+    padding:10px;
+    font-size:11px;
+    gap:0;
+    white-space:nowrap;
+  }
+  .site-home .site-header--hero:not(.is-scrolled) .nav-contact svg{display:none}
+  .site-home .site-header--hero.is-scrolled{top:10px}
+  .site-home .site-header--hero.is-scrolled .nav-mobile-toggle{color:white}
+  .site-home .hero{
+    min-height:710px;
+    height:100svh;
+    max-height:940px;
+    padding:130px 16px 85px;
+  }
+  .site-home .hero-landscape-image{object-position:51% center}
+  .site-home .hero-inner{
+    transform:translateY(-20px);
+    padding:0;
+  }
+  .site-home .hero h1{
+    font-size:clamp(27px,8.1vw,39px)!important;
+    line-height:1.15!important;
+    letter-spacing:-.053em!important;
+    margin:0 auto 19px;
+    max-width:100%;
+  }
+  .site-home .hero-description{
+    font-size:14px;
+    line-height:1.55;
+    max-width:345px;
+    margin-bottom:23px;
+    color:#202a35;
+  }
+  .site-home .hero-actions{flex-direction:column;gap:17px}
+  .site-home .hero-deal-figure{
+    margin-top:22px;
+    max-width:94vw;
+    padding:11px 16px 12px;
+  }
+  .site-home .hero-deal-figure strong{font-size:24px}
+  .site-home .hero-deal-figure>span{font-size:11px}
+  .site-home .hero-deal-figure small{font-size:9px}
+  .site-home .hero::after{
+    background:linear-gradient(180deg,rgba(232,240,247,.05) 0%,rgba(232,240,247,.07) 50%,rgba(241,243,247,.38) 76%,#f1f2f7 100%);
+  }
+}
+@media(max-width:360px){
+  .site-home .hero h1{font-size:26px!important}
+  .site-home .site-header--hero:not(.is-scrolled) .brand-logo{width:90px}
+  .site-home .site-header--hero:not(.is-scrolled) .nav-contact{font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .site-home .site-header--hero{transition:none}
+}

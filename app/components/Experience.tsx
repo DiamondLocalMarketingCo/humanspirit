@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { motion, useReducedMotion, useScroll } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check, Copy, Menu, X } from "lucide-react";
 
@@ -10,13 +10,25 @@ const navigation = [
   { label: "For companies", href: "/companies" },
 ];
 
-export function Header() {
+export function Header({ heroVariant = false }: { heroVariant?: boolean } = {}) {
   const [open, setOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const { scrollYProgress } = useScroll();
+  useEffect(() => {
+    if (!heroVariant) return;
+    const updateHeader = () => setPastHero(window.scrollY >= window.innerHeight - 130);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    window.addEventListener("resize", updateHeader);
+    return () => {
+      window.removeEventListener("scroll", updateHeader);
+      window.removeEventListener("resize", updateHeader);
+    };
+  }, [heroVariant]);
   return (
     <>
       <motion.div className="reading-progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />
-      <header className="site-header">
+      <header className={"site-header" + (heroVariant ? " site-header--hero" + (pastHero ? " is-scrolled" : "") : "")}>
         <nav className="nav-pill" aria-label="Main navigation">
           <a className="nav-brand" href="/" aria-label="Liorvel home"><img className="brand-logo" src="/liorvel_logo_white_transparent_true_alpha.png" alt="Liorvel" width={154} height={64} /></a>
           <div className="nav-links">{navigation.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}</div>

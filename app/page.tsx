@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight, Layers3, ScanSearch, Network, ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import skyline from "./citylandscape.png";
+import mountainBackdrop from "./webbackground.webp";
 import spectralArt from "./6a1721ed070156fbb2676424_6a05c67a478d77009ec4ec81_Rectangle 828797 (1).webp";
 import { Footer, Header, PrimaryLink, Reveal, FAQ } from "./components/Experience";
 
@@ -17,12 +17,11 @@ const steps = [
 ];
 
 export default function Home() {
-  return <div className="site">
-    <Header />
+  return <div className="site site-home">
+    <Header heroVariant />
     <main>
       <section className="hero" aria-labelledby="home-heading">
-        <div className="hero-art" aria-hidden="true" />
-        <div className="hero-city" aria-hidden="true"><Image src={skyline} alt="" fill priority sizes="(max-width: 650px) 1200px, 100vw" className="hero-city-image" /></div>
+        <div className="hero-art" aria-hidden="true"><Image src={mountainBackdrop} alt="" fill priority sizes="100vw" className="hero-landscape-image" /></div>
         <div className="hero-inner">
           <Reveal delay={0.1}><h1 id="home-heading" aria-label="Monetize your company’s operational data.">
             <span className="hero-value-desktop" aria-hidden="true">
